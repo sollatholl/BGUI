@@ -39,6 +39,15 @@ local function mech()
     end
 end
 
+local function players()
+    local plrs = {}
+    for _, p in ipairs(Players:GetPlayers()) do
+        table.insert(plrs, p)
+    end
+
+    return plrs
+end
+
 RunService.Heartbeat:Connect(function()
     if not KillAura.value and not UltSpam.value and not NoCD.value and not KillAll.value and not LAG.value then return end
     local bat, hit, special = mech()
@@ -50,13 +59,20 @@ RunService.Heartbeat:Connect(function()
 		bat:SetAttribute("ability_cooldown", 0)
 	end
     if KillAll.vale then
-        for _, player in ipairs(Players:GetChildren()) do
-            local char = player.Character or player.CharacterAdded:wait()
-            -- I'll find the remote for that shitty bat later 👍
+        local ppl = players()
+        for _, v in ipairs(ppl) do
+            local char = v.Character or v.CharacterAdded:wait()
+            local hrp = char and v:FindFirstChild("HumanoidRootPart")
+
+            local Event = BatRemotes["Electro Bat"].Electrify
+            Event:FireServer(
+                bat, -- game:GetService("Players").LocalPlayer.Character["Electro Bat"]
+                hrp.Position
+            )
         end
     end
     if LAG.value then
-        -- will finish later when i find those remotes
+        -- will finish later once i find those remotes.
     end
 end)
 
