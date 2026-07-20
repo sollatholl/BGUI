@@ -66,7 +66,7 @@ RunService.Heartbeat:Connect(function()
 
             local Event = BatRemotes["Electro Bat"].Electrify
             Event:FireServer(
-                bat, -- game:GetService("Players").LocalPlayer.Character["Electro Bat"]
+                game:GetService("Players").LocalPlayer.Character["Electro Bat"],
                 hrp.Position
             )
         end
