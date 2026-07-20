@@ -35,10 +35,7 @@ local function mech()
     if one and two and three then
         return one, two, three
     else
-        if not one then return error("Something went wrong with grabbing: bat") end
-        if not two then return error("Something went wrong with grabbing: hitremote") end
-        if not three then return error("Something went wrong with grabbing: ultremote") end
-
+        return error("Grabbing ERROR")
     end
 end
 
@@ -61,11 +58,11 @@ RunService.Heartbeat:Connect(function()
 		bat:SetAttribute("cooldown", 0)
 		bat:SetAttribute("ability_cooldown", 0)
 	end
-    if KillAll.vale then
+    if KillAll.value then
         local ppl = players()
         for _, v in ipairs(ppl) do
-            local char = v.Character or v.CharacterAdded:wait()
-            local hrp = char and v:FindFirstChild("HumanoidRootPart")
+            local char = v.Character or v.CharacterAdded:Wait()
+            local hrp = char and char:FindFirstChild("HumanoidRootPart")
 
             local Event = BatRemotes["Electro Bat"].Electrify
             Event:FireServer(
@@ -81,7 +78,7 @@ end)
 
 -- UI
 Iris:Connect(function()
-    Iris.Window({"Bat Game UI"}, {NoBackground = true}) do
+    Iris.Window({"Bat Game UI"})
 		Iris.Text({"Script by @z3zta"})
 		Iris.Checkbox({"Kill Aura"}, {isChecked = KillAura})
 		Iris.Checkbox({"Spam Ability"}, {isChecked = UltSpam})
@@ -89,5 +86,5 @@ Iris:Connect(function()
         Iris.Checkbox({"Kill All"}, {isChecked = KillAll})
         Iris.Checkbox({"Lag Server"}, {isChecked = LAG})
         Iris.End()
-    end
+    Iris.End()
 end)
