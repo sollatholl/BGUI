@@ -35,7 +35,10 @@ local function mech()
     if one and two and three then
         return one, two, three
     else
-        return error("Something went wrong with grabbing.")
+        if not one then return error("Something went wrong with grabbing: bat") end
+        if not two then return error("Something went wrong with grabbing: hitremote") end
+        if not three then return error("Something went wrong with grabbing: ultremote") end
+
     end
 end
 
