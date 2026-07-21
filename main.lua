@@ -18,6 +18,9 @@ local NoCooldown = Iris.State(false)
 local KillAll = Iris.State(false)
 local LagServer = Iris.State(false)
 
+local inputtedText = Iris.State("") -- meant to be blank!
+local murder = Iris.State(false)
+
 -- Core
 local function mech()
     local one = Character:FindFirstChildWhichIsA("Tool") or LocalPlayer.Backpack:FindFirstChildWhichIsA("Tool")
@@ -50,7 +53,7 @@ RunService.Heartbeat:Connect(function()
             if char and hrp then
                 local Event = BatRemotes["Electro Bat"].Electrify
                 Event:FireServer(
-                    Character:FindFirstChild("Electro Bat"),
+                    bat,
                     hrp.Position
                 )
             end
@@ -58,6 +61,21 @@ RunService.Heartbeat:Connect(function()
     end
     if LagServer.value then
         -- will add later on
+    end
+    if inputtedText.value and murder.value then
+        local person = Players:FindFirstChild(inputtedText.Value)
+        if person then
+            local char = person.Character
+            local hrp = char and char:FindFirstChild("HumanoidRootPart")
+
+            if char and hrp then
+                local Event = BatRemotes["Electro Bat"].Electrify
+                Event:FireServer(
+                    bat,
+                    hrp.Position
+                )
+            end
+        end
     end
 end)
 
@@ -71,7 +89,8 @@ Iris:Connect(function()
             Iris.Checkbox({"No Cooldowns"}, {isChecked = NoCooldown})
             Iris.Checkbox({"Kill All"}, {isChecked = KillAll})
         Iris.End()
-        
+        Iris.InputText({"Kill a Player:"}, {text = inputtedText})
+
         Iris.Separator()
 
         Iris.Checkbox({"Lag Server"}, {isChecked = LagServer})
