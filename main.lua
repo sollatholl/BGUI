@@ -19,7 +19,6 @@ local KillAll = Iris.State(false)
 local LagServer = Iris.State(false)
 
 local inputtedText = Iris.State("") -- meant to be blank!
-local murder = Iris.State(false)
 
 -- Core
 local function mech()
@@ -34,7 +33,7 @@ local function mech()
 end
 
 RunService.Heartbeat:Connect(function()
-    if not KillAura.value and not UltSpam.value and not NoCooldown.value and not KillAll.value and not LagServer.value then return end
+    if not KillAura.value and not UltSpam.value and not NoCooldown.value and not KillAll.value and not LagServer.value and not inputtedText.value then return end
     local bat, hit, special = mech()
 
     if KillAura.value and hit then hit:FireServer(bat) end
@@ -62,7 +61,7 @@ RunService.Heartbeat:Connect(function()
     if LagServer.value then
         -- will add later on
     end
-    if inputtedText.value and murder.value then
+    if inputtedText.value then
         local person = Players:FindFirstChild(inputtedText.Value)
         if person then
             local char = person.Character
