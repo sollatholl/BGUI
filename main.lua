@@ -26,6 +26,7 @@ local function mech()
     local one = Character:FindFirstChildWhichIsA("Tool") or LocalPlayer.Backpack:FindFirstChildWhichIsA("Tool")
     local two = one and BatRemotes and BatRemotes:FindFirstChild(one.Name)
     local three = two and two:FindFirstChildWhichIsA("RemoteEvent")
+
     return one, two, three 
 end
 
@@ -58,9 +59,7 @@ RunService.Heartbeat:Connect(function()
 
     if LagServer.value then
         --[[
-
             Will Work on Later!
-
         ]]--
     end
 
