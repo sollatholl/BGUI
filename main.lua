@@ -18,22 +18,19 @@ local NoCooldown = Iris.State(false)
 local KillAll = Iris.State(false)
 local LagServer = Iris.State(false)
 
-local inputtedText = Iris.State("") -- meant to be blank!
+local victim = Iris.State("") -- meant to be blank!
+local v_toggle = Iris.State(false)
 
 -- Core
 local function mech()
     local one = Character:FindFirstChildWhichIsA("Tool") or LocalPlayer.Backpack:FindFirstChildWhichIsA("Tool")
     local two = one and BatRemotes and BatRemotes:FindFirstChild(one.Name)
-    local three = nil
-    if two and two:FindFirstChildWhichIsA("RemoteEvent") then
-        three = two and two:FindFirstChildWhichIsA("RemoteEvent")
-    end
-
+    local three = two and two:FindFirstChildWhichIsA("RemoteEvent")
     return one, two, three 
 end
 
 RunService.Heartbeat:Connect(function()
-    if not KillAura.value and not UltSpam.value and not NoCooldown.value and not KillAll.value and not LagServer.value and not inputtedText.value then return end
+    if not KillAura.value and not UltSpam.value and not NoCooldown.value and not KillAll.value and not LagServer.value and not victim.value and not v_toggle then return end
     local bat, hit, special = mech()
 
     if KillAura.value and hit then hit:FireServer(bat) end
@@ -58,11 +55,17 @@ RunService.Heartbeat:Connect(function()
             end
         end
     end
+
     if LagServer.value then
-        -- will add later on
+        --[[
+
+            Will Work on Later!
+
+        ]]--
     end
-    if inputtedText.value then
-        local person = Players:FindFirstChild(inputtedText.Value)
+
+    if victim.value and v_toggle.value then
+        local person = Players:FindFirstChild(victim.Value)
         if person then
             local char = person.Character
             local hrp = char and char:FindFirstChild("HumanoidRootPart")
@@ -81,17 +84,23 @@ end)
 -- UI
 Iris:Connect(function()
     Iris.Window({"Bat Game UI"})
-        Iris.Text({"Script by @z3zta"})
+        Iris.Text({"Script by @solla15"})
         Iris.SameLine()
             Iris.Checkbox({"Kill Aura"}, {isChecked = KillAura})
             Iris.Checkbox({"Spam Ability"}, {isChecked = UltSpam})
             Iris.Checkbox({"No Cooldowns"}, {isChecked = NoCooldown})
             Iris.Checkbox({"Kill All"}, {isChecked = KillAll})
         Iris.End()
-        Iris.InputText({"Kill a Player:"}, {text = inputtedText})
+        Iris.SameLine()
+            Iris.InputText({"Kill Player"}, {text = victim})
+            Iris.Checkbox({"Toggle"}, {isChecked = v_toggle})
+        Iris.End()
 
         Iris.Separator()
 
         Iris.Checkbox({"Lag Server"}, {isChecked = LagServer})
+        if Iris.Button({"Infinite Yield"}).clicked then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+        end
     Iris.End()
 end)
